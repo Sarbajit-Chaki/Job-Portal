@@ -14,7 +14,7 @@ const About = () => {
                 <div className=' text-xl '>Every day, we are inspired to build a healthier, more transparent work community for all. Through the products we make and the communities we create, we’re breaking down barriers that lead to discrimination, pay gaps and toxic work environments. Together, we’re fostering a world where people have the support and resources they need to make the most of their worklife.</div>
             </div>
             
-            <img className='w-96' src={background} alt="" />
+            <img className=' h-96' src={background} alt="" />
         </div>
 
         <div className=' bg-[#f5f6f7] flex flex-col justify-center items-center my-4'>
