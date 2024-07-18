@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <Navbar/>
+      <div className="overflow-x-hidden"><Navbar/></div>
     </>
   )
 }
