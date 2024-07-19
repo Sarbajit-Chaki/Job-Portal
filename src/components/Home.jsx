@@ -66,7 +66,7 @@ const Home = () => {
                 />
                 <span
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3 translate-y-4 z-[10] cursor-pointer"
+                  className="absolute right-3 translate-y-[43%] z-[10] cursor-pointer"
                 >
                   {showPassword ? (
                     <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
