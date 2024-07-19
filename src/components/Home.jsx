@@ -97,19 +97,19 @@ const Home = () => {
         </div>
         <div className='w-10/12 flex justify-around mb-10'>
           <div className='flex flex-col gap-y-4 items-center justify-center'>
-            <TiMessages size={50} />
+            <TiMessages size={50} color='orange' />
             <p>Join your work community</p>
           </div>
           <div className='flex flex-col gap-y-4 items-center justify-center'>
-            <BsCardChecklist size={50} />
+            <BsCardChecklist size={50} color='blue' />
             <p>Find and apply to jobs</p>
           </div>
           <div className='flex flex-col gap-y-4 items-center justify-center'>
-            <HiOutlineBuildingOffice2 size={50} />
+            <HiOutlineBuildingOffice2 size={50} color='purple' />
             <p>Company reviews</p>
           </div>
           <div className='flex flex-col gap-y-4 items-center justify-center'>
-            <PiMoney size={50} />
+            <PiMoney size={50} color='green' />
             <p>Compare salaries</p>
           </div>
         </div>
