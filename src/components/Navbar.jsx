@@ -14,7 +14,7 @@ const Navbar = () => {
           <NavLink className={(e) => { return e.isActive ? "border-b-4 border-b-[#00a264] text-[#00a264]" : "" }} to="/about">About Us</NavLink>
           <NavLink className={(e) => { return e.isActive ? "border-b-4 border-b-[#00a264] text-[#00a264]" : "" }} to="/contact">Contact Us</NavLink>
         </div>
-        {login?<div>Profile</div>
+        {login?<Link to="/myprofile">Profile</Link>
         :
         <Link className=' bg-[#4cd681] px-4 py-1 rounded-md font-medium hover:bg-[#4cd681d1] hover:text-[#000000b0] ' to="/signup">Sign Up</Link>
         }
