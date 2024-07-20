@@ -5,7 +5,7 @@ import Footer from './Footer'
 const MyProfile = () => {
   return (
     <>
-      <div className=' w-1/2 border-2 border-b-[#ededed] my-8 mx-auto '>
+      <div className=' w-1/2 border-2 border-b-[#ededed] rounded-lg my-8 mx-auto '>
         <div className="box1 border-b-2 border-b-[#ededed]">
           <div className=' flex justify-between mt-6 mx-8 mb-0 '>
             <div className=' flex flex-col '>
