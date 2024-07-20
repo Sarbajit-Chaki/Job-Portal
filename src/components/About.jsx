@@ -2,6 +2,7 @@ import React from 'react'
 import background from '../assets/images/about.jpg'
 import emplyee from '../assets/images/employee.png'
 import hr from '../assets/images/hr.jpg'
+import Footer from './Footer'
 
 const About = () => {
   return (
@@ -23,7 +24,7 @@ const About = () => {
                 <div className=' text-xl font-semibold mt-4 '>Wherever you are on your career journey, JobPro makes it easier for workers and companies to find the perfect match.</div>
             </div>
 
-            <div className=' mt-10 flex justify-around items-center gap-x-8 w-full'>
+            <div className=' mt-10 mb-5 flex justify-around items-center gap-x-8 w-full'>
                 <div className=' flex flex-col justify-center items-center w-80'>
                     <div className=' w-28'>
                         <img src={emplyee} alt="" />
@@ -45,6 +46,8 @@ const About = () => {
                 </div>
             </div>
         </div>
+
+        <Footer/>
     </>
   )
 }
