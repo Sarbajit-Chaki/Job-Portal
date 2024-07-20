@@ -8,6 +8,8 @@ import Home from './components/Home.jsx'
 import About from './components/About.jsx'
 import Signup from './components/Signup.jsx'
 import MyProfile from './components/MyProfile.jsx'
+import Dashboard from './components/Dashboard.jsx'
+import Settings from './components/Settings.jsx'
 
 
 const router = createBrowserRouter([  
@@ -28,8 +30,17 @@ const router = createBrowserRouter([
         element: <Signup/>
       },
       {
-        path: '/myprofile',
-        element: <MyProfile/>
+        element: <Dashboard/>,
+        children: [
+          {
+            path: '/myprofile',
+            element: <MyProfile/>
+          },
+          {
+            path: '/settings',
+            element: <Settings />
+          }
+        ]
       },
     ],
   },
