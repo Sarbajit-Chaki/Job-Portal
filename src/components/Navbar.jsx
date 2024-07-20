@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
 const Navbar = () => {
-  const [login, setLogin] = useState(false)
+  const [login, setLogin] = useState(true)
 
   return (
     <>
