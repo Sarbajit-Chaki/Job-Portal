@@ -8,7 +8,7 @@ export default function Dashboard() {
             <div className="relative flex h-[calc(100vh-3.8rem)] overflow-y-hidden">
                 <Sidebar />
                 <div className=" overflow-scroll overflow-x-hidden">
-                    <div className='mx-auto scroll-m-0  py-10'>
+                    <div className='mx-auto py-10'>
                         <Outlet />
                     </div>
                 </div>
