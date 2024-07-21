@@ -10,6 +10,7 @@ import Signup from './components/Signup.jsx'
 import MyProfile from './components/MyProfile.jsx'
 import Dashboard from './components/Dashboard.jsx'
 import Settings from './components/Settings.jsx'
+import Contact from './components/Contact.jsx'
 
 
 const router = createBrowserRouter([  
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <About/>
+      },
+      {
+        path: '/contact',
+        element: <Contact />
       },
       {
         path: '/signup',

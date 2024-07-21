@@ -46,6 +46,7 @@ const Home = () => {
               <label >
                 <p>Email<span className='text-red-500'>*</span></p>
                 <input 
+                  required
                   type="text" 
                   name='email' 
                   placeholder='Enter email address' 
@@ -57,6 +58,7 @@ const Home = () => {
               <label className='relative'>
                 <p>Password<span className='text-red-500'>*</span></p>
                 <input 
+                  required
                   type={showPassword ? "text" : "password"}
                   name='password' 
                   value={formData.password}
