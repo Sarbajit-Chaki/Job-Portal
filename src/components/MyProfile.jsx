@@ -52,7 +52,7 @@ const MyProfile = () => {
           <div className=' flex flex-col mx-8 my-6  '>
             <div className=' flex items-center gap-x-3'>
               <div className=' text-2xl font-medium '>My information</div>
-              <span onClick={() => {navigate('/settings')}} className="material-symbols-outlined rounded-xl p-1 cursor-pointer hover:bg-[#f2f4f5]">edit</span>
+              <span onClick={() => {navigate('/settings')}} className="material-symbols-outlined rounded-full p-1 cursor-pointer hover:bg-[#f2f4f5]">edit</span>
             </div>
             <div className=' font-normal mb-3 '>Updating your information will offer you the most relevant jobs</div>
             <div className=' flex items-center gap-x-5'>

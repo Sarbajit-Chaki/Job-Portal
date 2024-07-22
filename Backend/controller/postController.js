@@ -190,7 +190,7 @@ const getAllPost = async (req,res) => {
             All_post_detsils
         })
     } catch (error) {
-        
+        console.log(error)
     }
 }
 
