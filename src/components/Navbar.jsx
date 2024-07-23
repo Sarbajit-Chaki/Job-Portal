@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className=' bg-[#f4f4f4] flex justify-around items-center p-3 text-lg font-medium sticky top-0 border-b border-gray-400'>
+      <nav className=' w-full bg-[#f4f4f4] flex justify-around items-center p-3 text-lg font-medium fixed z-50 top-0 border-b border-gray-400'>
         <NavLink className=' text-3xl font-bold text-[#00a264] cursor-pointer' to="/">JobPro</NavLink>
         <div className=' flex items-center gap-x-4'>
           <NavLink className={(e) => { return e.isActive ? "border-b-4 border-b-[#00a264] text-[#00a264]" : "" }} to="/">Home</NavLink>

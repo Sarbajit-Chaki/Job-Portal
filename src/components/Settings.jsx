@@ -128,7 +128,7 @@ const Settings = () => {
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="hidden"
-                accept="image/png, image/jpeg image/jpg image/gif"
+                accept="image/png, image/jpeg, image/jpg, image/gif"
               />
               <button 
                 onClick={handleClick}
@@ -230,6 +230,7 @@ const Settings = () => {
                     value={formData.about}
                     onChange={handleChange}
                     className="border border-gray-400 rounded-md mt-2 p-2 w-full"
+                    maxLength={850}
                   />
                 </label>
               </div>

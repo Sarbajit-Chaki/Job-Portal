@@ -5,7 +5,7 @@ const PostSchema = new mongoose.Schema({
     description: String,
     imageUrl: {
         type: String,
-        default: "https://5.imimg.com/data5/SELLER/Default/2021/5/WA/LQ/KN/100543921/job-portal-development-service-500x500.jpg"
+        default: "https://asset.cloudinary.com/dpsb0ysde/16baf60d9d60b097e693376a67549a90"
     },
     applied: [{
         type: mongoose.Schema.Types.ObjectId,

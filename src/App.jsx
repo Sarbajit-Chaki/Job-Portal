@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <div className="overflow-x-hidden"><Navbar/></div>
+      <div className="overflow-x-hidden pt-10"><Navbar/></div>
     </>
   )
 }
