@@ -119,7 +119,7 @@ const Home = () => {
       <div className='py-10 bg-[#F5F6F7]'>
         <p className='text-center text-3xl font-semibold'>Shape your career</p>
         <p className='text-xl text-center text-gray-600 my-4'>Need some inspiration? See what millions of people are looking for on JobPro today.</p>
-        <button onClick={() => {navigate('/posts')}} className='w-[250px] mx-auto flex justify-center items-center gap-x-2 py-3 mt-8 rounded-md bg-black text-white text-center text-[18px] hover:bg-[#00a264] transition-all duration-300'>
+        <button onClick={() => {navigate('/jobs')}} className='w-[250px] mx-auto flex justify-center items-center gap-x-2 py-3 mt-8 rounded-md bg-black text-white text-center text-[18px] hover:bg-[#00a264] transition-all duration-300'>
             Find Jobs <CiSearch/>
         </button>
       </div>

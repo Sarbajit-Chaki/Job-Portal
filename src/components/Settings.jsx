@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { FiUpload } from "react-icons/fi"
+import { IoTrashOutline } from "react-icons/io5";
+import { FiUpload } from "react-icons/fi";
 import { useNavigate } from "react-router-dom"
 
 const genders = ["Male", "Female", "Other"]
@@ -46,6 +47,7 @@ const Settings = () => {
 
   const [showPassword1, setShowPassword1] = useState(true)
   const [showPassword2, setShowPassword2] = useState(true)
+  const [pdfSelected, setPdfSelected] = useState(false)
 
   const [passwordData, setPasswordData] = useState({
     oldPassword: "",
@@ -61,6 +63,7 @@ const Settings = () => {
   }
 
   const fileInputRef = useRef()
+  const pdfInputRef = useRef()
 
   const navigate = useNavigate();
 
@@ -76,6 +79,13 @@ const Settings = () => {
     }
   }
 
+  const handlePdfChange = (e) => {
+    const file = e.target.files[0]
+    if(file) {
+      setPdfSelected(true)
+    }
+  }
+
   const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -86,6 +96,11 @@ const Settings = () => {
 
   const handleFileUpload = () => {
     // Upload image to server
+  }
+
+  const hanldePdfUpload = () => {
+    // Upload pdf to server
+    setPdfSelected(false)
   }
 
   const handleChange = (e) => {
@@ -100,6 +115,11 @@ const Settings = () => {
     e.preventDefault()
     console.log(formData)
     // Update user details
+  }
+
+  const handleAccountDelete = () => {
+    // Delete account
+    navigate("/")
   }
 
   useEffect(() => {
@@ -141,6 +161,28 @@ const Settings = () => {
                 className="flex items-center gap-x-1 rounded-md bg-black text-white py-2 px-4 hover:bg-[#00a264] transition-all duration-300">
                 Upload <span><FiUpload/></span>
               </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-100 rounded-lg mb-16 border border-gray-400 py-10">
+          <div className="w-10/12 mx-auto flex flex-col">
+            <h2 className="font-semibold text-xl">Upload Resume</h2>
+            <p className="mt-4 font-semibold">{pdfSelected && "File Selected"}</p>
+            <div className="flex gap-4 mt-4">
+              <input 
+                type="file"
+                className="hidden"
+                ref={pdfInputRef}
+                accept="application/pdf"
+                onChange={handlePdfChange}
+              />
+              <button 
+                onClick={() => pdfInputRef.current.click()}
+                className="bg-gray-400 text-black py-2 px-4 rounded-md">Select</button>
+              <button 
+                onClick={hanldePdfUpload}
+                className="flex items-center gap-x-1 rounded-md bg-black text-white py-2 px-4 hover:bg-[#00a264] transition-all duration-300">Upload</button>
             </div>
           </div>
         </div>
@@ -289,6 +331,27 @@ const Settings = () => {
                 <button type="submit" className="px-4 py-2 bg-black hover:bg-[#00a264] text-white rounded-md transition-all duration-300">Save</button>
               </div>
             </form>
+          </div>
+        </div>
+
+        <div className="border border-red-600 bg-[#f6bec4] my-16 rounded-lg py-8">
+          <div className="mx-auto w-10/12">
+            <div className="flex gap-3 items-center mb-4">
+              <h2 className="text-xl font-semibold">Delete Account</h2>
+              <div className="p-2 rounded-full border bg-red-300">
+                <IoTrashOutline color="red" size={24} />
+              </div>
+            </div>
+            <div>
+              <p>Would you like to delete this account?</p>
+              <p>Deleting your account is permanent and will remove all the contain associated with it.</p>
+              <button 
+                onClick={handleAccountDelete}
+                className="mt-3 italic font-semibold text-red-800"
+              >
+                I want to delete this account
+              </button>
+            </div>
           </div>
         </div>
       </div>
