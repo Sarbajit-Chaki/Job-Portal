@@ -165,7 +165,7 @@ const Settings = () => {
           </div>
         </div>
 
-        <div className="bg-gray-100 rounded-lg mb-16 border border-gray-400 py-10">
+        {profile_data.user_details.accountType === "employee" && <div className="bg-gray-100 rounded-lg mb-16 border border-gray-400 py-10">
           <div className="w-10/12 mx-auto flex flex-col">
             <h2 className="font-semibold text-xl">Upload Resume</h2>
             <p className="mt-4 font-semibold">{pdfSelected && "File Selected"}</p>
@@ -182,10 +182,10 @@ const Settings = () => {
                 className="bg-gray-400 text-black py-2 px-4 rounded-md">Select</button>
               <button 
                 onClick={hanldePdfUpload}
-                className="flex items-center gap-x-1 rounded-md bg-black text-white py-2 px-4 hover:bg-[#00a264] transition-all duration-300">Upload</button>
+                className="flex items-center gap-x-1 rounded-md bg-black text-white py-2 px-4 hover:bg-[#00a264] transition-all duration-300"><p>Upload</p> <FiUpload /></button>
             </div>
           </div>
-        </div>
+        </div>}
 
         <div className="border border-gray-400 bg-gray-100 rounded-xl py-10">
           <form onSubmit={handleSubmit}>

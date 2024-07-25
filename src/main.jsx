@@ -14,7 +14,11 @@ import Contact from './components/Contact.jsx'
 import Jobs from './components/Jobs.jsx'
 import AddPost from './components/AddPost.jsx'
 import MyPosts from './components/MyPosts.jsx'
+<<<<<<< HEAD
 import EditPost from './components/EditPost.jsx'
+=======
+import AppliedUsers from './components/AppliedUsers.jsx'
+>>>>>>> a4cdbcdd715c027a798d0b1a96163792df719f97
 
 
 const router = createBrowserRouter([  
@@ -64,6 +68,10 @@ const router = createBrowserRouter([
           {
             path: '/myposts/editPost/:postId',
             element: <EditPost/>
+          },
+          {
+            path: '/myposts/appliedUsers',
+            element: <AppliedUsers/>
           }
         ]
       },
