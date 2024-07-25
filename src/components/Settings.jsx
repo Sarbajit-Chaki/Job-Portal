@@ -272,7 +272,7 @@ const Settings = () => {
                     value={formData.about}
                     onChange={handleChange}
                     className="border border-gray-400 rounded-md mt-2 p-2 w-full"
-                    maxLength={850}
+                    maxLength={1000}
                   />
                 </label>
               </div>
@@ -347,7 +347,7 @@ const Settings = () => {
               <p>Deleting your account is permanent and will remove all the contain associated with it.</p>
               <button 
                 onClick={handleAccountDelete}
-                className="mt-3 italic font-semibold text-red-800"
+                className="mt-3 italic font-semibold text-red-800 hover:underline"
               >
                 I want to delete this account
               </button>

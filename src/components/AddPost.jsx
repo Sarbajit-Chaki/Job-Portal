@@ -100,7 +100,7 @@ const AddPost = () => {
                                             <textarea className="border border-gray-400 rounded-md mt-2 p-2 w-full"
                                                 rows={7}
                                                 name="about"
-                                                maxLength={1000}
+                                                maxLength={1500}
                                                 {...register("jobDescription", { required: true })}
                                             />
                                         </label>
