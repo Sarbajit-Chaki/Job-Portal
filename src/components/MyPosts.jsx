@@ -68,7 +68,7 @@ const MyPosts = () => {
                                     </div>
                                     <div className='flex items-center gap-4'>
                                         <button 
-                                            onClick={()=>{navigate(`/myposts/appliedUsers/:postId`)}}
+                                            onClick={()=>{navigate(`/myposts/appliedUsers`)}}
                                             className='bg-black text-white hover:bg-[#00a264] px-3 py-1 rounded-md transition-all duration-300'>
                                             Applied Users
                                         </button>
