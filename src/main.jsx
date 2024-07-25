@@ -14,6 +14,7 @@ import Contact from './components/Contact.jsx'
 import Jobs from './components/Jobs.jsx'
 import AddPost from './components/AddPost.jsx'
 import MyPosts from './components/MyPosts.jsx'
+import AppliedUsers from './components/AppliedUsers.jsx'
 
 
 const router = createBrowserRouter([  
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
           {
             path: '/myposts',
             element: <MyPosts/>
+          },
+          {
+            path: '/myposts/appliedUsers',
+            element: <AppliedUsers/>
           }
         ]
       },
