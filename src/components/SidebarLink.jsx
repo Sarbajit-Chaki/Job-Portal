@@ -6,7 +6,7 @@ export default function SidebarLink({ link, iconName }) {
     const location = useLocation();
 
     const matchRoute = (route) => {
-        return matchPath({path: route}, location.pathname);
+        return matchPath({path: route}, location.pathname) || location.pathname.startsWith(route);
     }
 
     return (
