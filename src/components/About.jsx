@@ -18,7 +18,7 @@ const About = () => {
             <img className=' h-96' src={background} alt="" />
         </div>
 
-        <div className=' bg-[#f5f6f7] flex flex-col justify-center items-center my-4'>
+        <div className=' bg-[#f5f6f7] flex flex-col justify-center items-center mt-4'>
             <div className=' text-center my-5'>
                 <div className=' text-5xl font-semibold text-[#00a264]'>Making worklife better</div>
                 <div className=' text-xl font-semibold mt-4 '>Wherever you are on your career journey, JobPro makes it easier for workers and companies to find the perfect match.</div>
