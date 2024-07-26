@@ -16,6 +16,10 @@ import AddPost from './components/AddPost.jsx'
 import MyPosts from './components/MyPosts.jsx'
 import EditPost from './components/EditPost.jsx'
 import AppliedUsers from './components/AppliedUsers.jsx'
+import Applied from './components/Applied.jsx'
+import ForgotPassword from './components/ForgotPassword.jsx'
+import VerifyEmail from './components/VerifyEmail.jsx'
+import ResetPassword from './components/ResetPassword.jsx'
 
 
 const router = createBrowserRouter([  
@@ -44,6 +48,18 @@ const router = createBrowserRouter([
         element: <Jobs/>
       },
       {
+        path: '/forgot-password',
+        element: <ForgotPassword/>
+      },
+      {
+        path: '/verify-email',
+        element: <VerifyEmail/>
+      },
+      {
+        path: '/reset-password',
+        element: <ResetPassword/>
+      },
+      {
         element: <Dashboard/>,
         children: [
           {
@@ -69,6 +85,10 @@ const router = createBrowserRouter([
           {
             path: '/myposts/appliedUsers',
             element: <AppliedUsers/>
+          },
+          {
+            path: '/applied',
+            element: <Applied/>
           }
         ]
       },
