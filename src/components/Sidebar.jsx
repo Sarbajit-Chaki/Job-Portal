@@ -6,7 +6,7 @@ import { VscSignOut } from "react-icons/vsc";
 export default function Sidebar() {
     const navigate = useNavigate();
     const user = { // dummy data
-        accountType: 'hr'
+        accountType: 'employee'
     }
 
     return (
