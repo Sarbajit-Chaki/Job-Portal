@@ -1,14 +1,50 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import OTPInput from "react-otp-input"
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyEmail = () => {
     const [otp, setOtp] = useState("");
+    const location = useLocation();
+    const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
+    let data = location.state?.data;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(otp);
+        data.otp = otp;
+        console.log(data)
+        
+        let response = await fetch("http://localhost:3000/auth/signup", {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        })
+        response = await response.json()
+        console.log(response)
+        
+        if(response.success === true){
+            toast.success('Account Created Succesfully', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+
+            navigate("/")
+        }
     }
     return (
+    <>
         <div className="flex items-center justify-center h-[calc(100vh-6rem)]">
             <div className="w-1/4">
                 <h1 className="text-2xl font-semibold">Verify Email</h1>
@@ -21,7 +57,7 @@ const VerifyEmail = () => {
                         onChange={setOtp}
                         numInputs={6}
                         renderInput={(props) => (
-                            <input 
+                            <input
                                 {...props}
                                 placeholder="-"
                                 style={{ width: "50px" }}
@@ -37,6 +73,7 @@ const VerifyEmail = () => {
                 </form>
             </div>
         </div>
+    </>
     )
 }
 

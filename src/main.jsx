@@ -21,8 +21,10 @@ import ForgotPassword from './components/ForgotPassword.jsx'
 import VerifyEmail from './components/VerifyEmail.jsx'
 import ResetPassword from './components/ResetPassword.jsx'
 
+import { store } from './redux/store.js'
+import { Provider } from 'react-redux'
 
-const router = createBrowserRouter([  
+const router = createBrowserRouter([
   {
     path: '/',
     element: <App />, // The main App component
@@ -33,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/about',
-        element: <About/>
+        element: <About />
       },
       {
         path: '/contact',
@@ -41,30 +43,30 @@ const router = createBrowserRouter([
       },
       {
         path: '/signup',
-        element: <Signup/>
+        element: <Signup />
       },
       {
         path: '/jobs',
-        element: <Jobs/>
+        element: <Jobs />
       },
       {
         path: '/forgot-password',
-        element: <ForgotPassword/>
+        element: <ForgotPassword />
       },
       {
         path: '/verify-email',
-        element: <VerifyEmail/>
+        element: <VerifyEmail />
       },
       {
         path: '/reset-password',
-        element: <ResetPassword/>
+        element: <ResetPassword />
       },
       {
-        element: <Dashboard/>,
+        element: <Dashboard />,
         children: [
           {
             path: '/myprofile',
-            element: <MyProfile/>
+            element: <MyProfile />
           },
           {
             path: '/settings',
@@ -72,23 +74,23 @@ const router = createBrowserRouter([
           },
           {
             path: '/addpost',
-            element: <AddPost/>
+            element: <AddPost />
           },
           {
             path: '/myposts',
-            element: <MyPosts/>
+            element: <MyPosts />
           },
           {
             path: '/myposts/editPost/:postId',
-            element: <EditPost/>
+            element: <EditPost />
           },
           {
             path: '/myposts/appliedUsers',
-            element: <AppliedUsers/>
+            element: <AppliedUsers />
           },
           {
             path: '/applied',
-            element: <Applied/>
+            element: <Applied />
           }
         ]
       },
@@ -99,8 +101,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <Provider store={store}>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
+    </Provider>
   </React.StrictMode>,
 )

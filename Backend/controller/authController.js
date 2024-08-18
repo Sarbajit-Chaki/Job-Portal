@@ -32,6 +32,7 @@ const sendOtp = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
+        console.log(req.body)
         const { firstName, lastName, email, password, accountType, otp } = req.body
         if (!firstName || !lastName || !email || !password || !accountType || !otp) {
             return res.status(401).json({

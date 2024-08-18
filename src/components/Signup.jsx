@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -8,6 +9,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [accType, setAccType] = useState("employee")
+  const navigate = useNavigate()
 
   const accTypeChange = (accType) => {
     if(accType=="employee"){
@@ -42,13 +44,28 @@ const Signup = () => {
 
     data.accountType = accType
     console.log(data)
+
+    let response = await fetch("http://localhost:3000/auth/sendOtp",{
+      method: 'POST',
+      credentials: 'include',
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({email: data.email})
+    },)
+    
+    response = await response.json()
+    console.log(response)
+    if(response.success === true){
+      navigate('/verify-email',{ state: {data: data}})
+    }
+
     setAccType("employee")
     reset();
   }
 
   return (
     <>
-       <ToastContainer />
 
       <main className=' flex justify-center items-center flex-col mx-auto mb-5 '>
         <h1 className=' text-[#00a264] text-5xl font-semibold mt-6 mb-5 '>Welcome to JobPro </h1>
@@ -63,12 +80,12 @@ const Signup = () => {
           <form action='' onSubmit={handleSubmit(onSubmit)}>
             <label>
               <p>First Name</p>
-              <input {...register("firstname")} className=' w-full border-2 rounded-md border-gray-400 p-2 mb-2' type="text" placeholder="Enter first name" />
+              <input {...register("firstName")} className=' w-full border-2 rounded-md border-gray-400 p-2 mb-2' type="text" placeholder="Enter first name" />
             </label>
 
             <label>
               <p>Last Name</p>
-              <input {...register("lastname")} className=' w-full border-2 rounded-md border-gray-400 p-2 mb-2' type="text" placeholder="Enter last name" />
+              <input {...register("lastName")} className=' w-full border-2 rounded-md border-gray-400 p-2 mb-2' type="text" placeholder="Enter last name" />
             </label>
 
             <label>

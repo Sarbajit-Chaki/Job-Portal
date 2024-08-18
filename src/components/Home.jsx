@@ -10,6 +10,10 @@ import img2 from '../assets/images/img2.png'
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 
+import { useDispatch } from 'react-redux';
+import { setToken } from '../redux/Slices/authSlice';
+import { setUser } from '../redux/Slices/profileSlice';
+
 const Home = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -19,18 +23,37 @@ const Home = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }))
-  }
+  }  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-  }
+
+    let response = await fetch("http://localhost:3000/auth/login",{
+      method: "POST",
+      credentials: 'include',
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData)
+    })
+
+    response = await response.json()
+    console.log(response)
+    if(response.success === true) {
+      // console.log(response.token)
+      // console.log(response.user)
+      dispatch(setToken(response.token))
+      dispatch(setUser(response.user))
+    }
+  } 
 
   return (
     <>

@@ -57,7 +57,7 @@ const Jobs = () => {
       <div className=' flex justify-center gap-x-6 py-10'>
         <div className=' w-1/4 max-h-[80vh] overflow-y-scroll pr-1'>
           {allPosts.All_post_detsils.map((post, i) => {
-            return (<>
+            return (
               <div onClick={()=>{setCurrPost(post)}} key={i} className= {`${post==currPost?" border-[#ededed] rounded-lg":" border-white border-b-[#ededed]"} p-4 mb-1 cursor-pointer border-2 hover:bg-[#f4f4f4]`} >
                 <div className=' flex items-center gap-x-3 mb-2'>
                   <img className=' w-8 rounded-full' src={post.imageUrl} alt="" />
@@ -65,7 +65,7 @@ const Jobs = () => {
                 </div>
                 <div>{post.description.split(" ").slice(0, 10).join(" ")}...</div>
               </div>
-            </>)
+            )
           })}
         </div>
 

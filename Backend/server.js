@@ -20,7 +20,13 @@ const port = 3000
 app.use(cookieParser())
 app.use(fileUpload({useTempFiles: true, tempFileDir: "/tmp"}))
 app.use(express.json())
-app.use(cors({origin: "http://localhost:5173"}))
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 
 app.use('/auth',authRouter)
