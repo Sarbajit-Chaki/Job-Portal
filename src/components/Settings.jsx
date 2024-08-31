@@ -3,51 +3,33 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { IoTrashOutline } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
 import { useNavigate } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../redux/Slices/profileSlice";
+import { setToken } from "../redux/Slices/authSlice";
 
 const genders = ["Male", "Female", "Other"]
 
 const Settings = () => {
 
-  const profile_data = {
-    "success": true,
-    "message": "User details get succesfully",
-    "user_details": {
-        "_id": "6694d7fde6aa4b9d7c7470b9",
-        "firstName": "Dibakar",
-        "lastName": "Ghosh",
-        "email": "ghoshdibakar81@gmail.com",
-        "password": "$2b$10$IEx2OG9xXI/6uLuYhAVkLeDsuwVWC9GFKNAPs0QcDrh/AHZW5vj96",
-        "accountType": "employee",
-        "image": "https://api.dicebear.com/5.x/initials/svg?seed=Dibakar Ghosh",
-        "additionalDetails": {
-            "_id": "6694d7fde6aa4b9d7c7470b7",
-            "DOB": "2003-06-26",
-            "gender": "Male",
-            "about": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium accusantium dicta ullam alias maiores unde perspiciatis eum possimus labore, quaerat nam corrupti molestiae, quas ipsum ex numquam cupiditate blanditiis repudiandae. Sequi minus consectetur aperiam nobis commodi quae iusto eum provident in hic error atque laboriosam deserunt earum, asperiores dolores vel amet eos labore sed! Necessitatibus, asperiores voluptas. Eum illum, impedit facilis modi molestiae quam tempore vel maiores eligendi praesentium alias, officia vero cum sit. Ab omnis nobis aliquid, sed, distinctio alias reiciendis debitis facilis pariatur dolore id veritatis corporis explicabo itaque earum voluptate, doloribus soluta error deleniti illum laboriosam? Unde!",
-            "contact": "9874563215",
-            "__v": 0
-        },
-        "posts": [],
-        "apply": [],
-        "__v": 0,
-        "resume": "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721031320/profile_resume/nzift5zebkkluxrgpu4i.pdf"}
-  }
+  const user = useSelector((state) => state.profile.user)
+  const dispatch = useDispatch()
 
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
 
   const [formData, setFormData] = useState({
-    firstName: profile_data.user_details.firstName,
-    lastName: profile_data.user_details.lastName,
-    DOB: profile_data.user_details.additionalDetails.DOB,
-    gender: profile_data.user_details.additionalDetails.gender,
-    contact: profile_data.user_details.additionalDetails.contact,
-    about: profile_data.user_details.additionalDetails.about,
+    firstName: user.firstName ?? "",
+    lastName: user.lastName ?? "",
+    DOB: user.additionalDetails.DOB ?? "",
+    gender: user.additionalDetails.gender ?? "",
+    contact: user.additionalDetails.contact ?? "",
+    about: user.additionalDetails.about ?? "",
   })
 
   const [showPassword1, setShowPassword1] = useState(true)
   const [showPassword2, setShowPassword2] = useState(true)
   const [pdfSelected, setPdfSelected] = useState(false)
+  const [pdfFile, setPdfFile] = useState(null);
 
   const [passwordData, setPasswordData] = useState({
     oldPassword: "",
@@ -55,7 +37,7 @@ const Settings = () => {
   })
 
   const handlePasswordChange = (e) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
     setPasswordData({
       ...passwordData,
       [name]: value
@@ -73,7 +55,7 @@ const Settings = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
-    if(file) {
+    if (file) {
       setImageFile(file)
       previewFile(file)
     }
@@ -81,7 +63,8 @@ const Settings = () => {
 
   const handlePdfChange = (e) => {
     const file = e.target.files[0]
-    if(file) {
+    if (file) {
+      setPdfFile(file)
       setPdfSelected(true)
     }
   }
@@ -94,48 +77,128 @@ const Settings = () => {
     }
   }
 
-  const handleFileUpload = () => {
+  const handleFileUpload = async () => {
     // Upload image to server
+    if(!imageFile) return
+
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    let res = await fetch("http://localhost:3000/profile/updateImage", {
+      method: "POST",
+      credentials: 'include',
+      body: formData
+    })
+
+    let data = await res.json()
+    console.log(data)
+
+    dispatch(setUser(data.user))
   }
 
-  const hanldePdfUpload = () => {
+  const hanldePdfUpload = async () => {
     // Upload pdf to server
+    if(!pdfFile) return
+
+    const formData = new FormData();
+    formData.append('resume', pdfFile);
+
+    let res = await fetch("http://localhost:3000/profile/updateResume", {
+      method: "POST",
+      credentials: 'include',
+      body: formData
+    })
+
+    let data = await res.json()
+    console.log(data)
+
+    dispatch(setUser(data.user))
+
     setPdfSelected(false)
   }
 
   const handleChange = (e) => {
-    const {name, value} = e.target
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    // Update user details
     e.preventDefault()
     console.log(formData)
-    // Update user details
+    
+    let res = await fetch("http://localhost:3000/profile/updateProfile", {
+      method: "POST",
+      credentials: 'include',
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData)
+    })
+
+    let data = await res.json()
+    console.log(data)
+    dispatch(setUser(data.user))
+  }
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault()
+    if(passwordData.newPassword === passwordData.oldPassword) return
+    
+    let res = await fetch("http://localhost:3000/auth/changePassword", {
+      method: "POST",
+      credentials: 'include',
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+              old_pass: passwordData.oldPassword,
+              new_pass: passwordData.newPassword
+            })
+    })
+
+    let data = await res.json()
+    console.log(data)
+
+    setPasswordData({
+      oldPassword: "",
+      newPassword: ""
+    })
   }
 
   const handleAccountDelete = () => {
     // Delete account
+    let res = fetch("http://localhost:3000/profile/deleteProfile", {
+      method: "DELETE",
+      credentials: 'include',
+      headers:{
+        "Content-Type": "application/json",
+      },
+    })
+
+    dispatch(setUser(null))
+    dispatch(setToken(null))
+
     navigate("/")
   }
 
   useEffect(() => {
-    if(imageFile) {
+    if (imageFile) {
       previewFile(imageFile)
     }
-  },[imageFile])
+  }, [imageFile])
 
-  
+
   return (
     <div className="w-[calc(100vw-10rem)] overflow-y-auto">
       <div className="mx-auto w-10/12">
         <h1 className="text-3xl font-semibold">Edit Profile</h1>
         <div className="flex items-center gap-10 bg-gray-100 border border-gray-400 rounded-lg px-10 py-8 my-16">
           <img
-            src={imagePreview || profile_data.user_details.image}
+            src={imagePreview || user.image}
             className="aspect-square h-28 w-28 rounded-full object-cover"
           />
           <div className="flex flex-col gap-y-4">
@@ -150,37 +213,37 @@ const Settings = () => {
                 className="hidden"
                 accept="image/png, image/jpeg, image/jpg, image/gif"
               />
-              <button 
+              <button
                 onClick={handleClick}
                 className="bg-gray-400 text-black py-2 px-4 rounded-md"
               >
                 Select
               </button>
-              <button 
+              <button
                 onClick={handleFileUpload}
                 className="flex items-center gap-x-1 rounded-md bg-black text-white py-2 px-4 hover:bg-[#00a264] transition-all duration-300">
-                Upload <span><FiUpload/></span>
+                Upload <span><FiUpload /></span>
               </button>
             </div>
           </div>
         </div>
 
-        {profile_data.user_details.accountType === "employee" && <div className="bg-gray-100 rounded-lg mb-16 border border-gray-400 py-10">
+        {user.accountType === "employee" && <div className="bg-gray-100 rounded-lg mb-16 border border-gray-400 py-10">
           <div className="w-10/12 mx-auto flex flex-col">
             <h2 className="font-semibold text-xl">Upload Resume</h2>
             <p className="mt-4 font-semibold">{pdfSelected && "File Selected"}</p>
             <div className="flex gap-4 mt-4">
-              <input 
+              <input
                 type="file"
                 className="hidden"
                 ref={pdfInputRef}
                 accept="application/pdf"
                 onChange={handlePdfChange}
               />
-              <button 
+              <button
                 onClick={() => pdfInputRef.current.click()}
                 className="bg-gray-400 text-black py-2 px-4 rounded-md">Select</button>
-              <button 
+              <button
                 onClick={hanldePdfUpload}
                 className="flex items-center gap-x-1 rounded-md bg-black text-white py-2 px-4 hover:bg-[#00a264] transition-all duration-300"><p>Upload</p> <FiUpload /></button>
             </div>
@@ -195,7 +258,7 @@ const Settings = () => {
                 <div className="w-full">
                   <label>
                     <p>First Name</p>
-                    <input 
+                    <input
                       type="text"
                       name="firstName"
                       onChange={handleChange}
@@ -207,7 +270,7 @@ const Settings = () => {
                 <div className="w-full">
                   <label>
                     <p>Last Name</p>
-                    <input 
+                    <input
                       type="text"
                       name="lastName"
                       onChange={handleChange}
@@ -221,7 +284,7 @@ const Settings = () => {
                 <div className="w-full">
                   <label>
                     <p>Date of Birth</p>
-                    <input 
+                    <input
                       type="date"
                       name="DOB"
                       onChange={handleChange}
@@ -233,7 +296,7 @@ const Settings = () => {
                 <div className="w-full">
                   <label>
                     <p>Contact Number</p>
-                    <input 
+                    <input
                       type="number"
                       name="contact"
                       onChange={handleChange}
@@ -254,7 +317,8 @@ const Settings = () => {
                   onChange={handleChange}
                   className="border border-gray-400 rounded-md mt-2 p-2 "
                 >
-                  {genders.map((ele,i) => {
+                  <option value="" disabled>selected</option>
+                  {genders.map((ele, i) => {
                     return (
                       <option key={i} value={ele}>
                         {ele}
@@ -277,7 +341,7 @@ const Settings = () => {
                 </label>
               </div>
               <div className="flex gap-4 self-end">
-                <button onClick={() => {navigate("/myprofile")}} className="px-4 py-2 bg-gray-400 rounded-md">Cancel</button>
+                <button onClick={() => { navigate("/myprofile") }} className="px-4 py-2 bg-gray-400 rounded-md">Cancel</button>
                 <button type="submit" className="px-4 py-2 bg-black hover:bg-[#00a264] text-white rounded-md transition-all duration-300">Save</button>
               </div>
             </div>
@@ -287,12 +351,12 @@ const Settings = () => {
         <div className="border border-gray-400 bg-gray-100 my-16 rounded-lg  py-8">
           <div className="w-10/12 mx-auto">
             <h2 className="font-semibold text-xl mb-4">Update Password</h2>
-            <form className="flex flex-col">
+            <form onSubmit={handleUpdatePassword} className="flex flex-col">
               <div className="flex gap-10 my-4">
                 <div className="w-full">
                   <label className="relative">
                     <p>Old Password</p>
-                    <input 
+                    <input
                       type={showPassword1 ? "password" : "text"}
                       value={passwordData.oldPassword}
                       name="oldPassword"
@@ -310,7 +374,7 @@ const Settings = () => {
                 <div className="w-full">
                   <label className="relative">
                     <p>New Password</p>
-                    <input 
+                    <input
                       type={showPassword2 ? "password" : "text"}
                       name="newPassword"
                       value={passwordData.newPassword}
@@ -327,7 +391,7 @@ const Settings = () => {
                 </div>
               </div>
               <div className="flex gap-4 my-2 self-end">
-                <button onClick={() => {navigate("/myprofile")}} className="px-4 py-2 bg-gray-400 rounded-md">Cancel</button>
+                <button onClick={() => { navigate("/myprofile") }} className="px-4 py-2 bg-gray-400 rounded-md">Cancel</button>
                 <button type="submit" className="px-4 py-2 bg-black hover:bg-[#00a264] text-white rounded-md transition-all duration-300">Save</button>
               </div>
             </form>
@@ -345,7 +409,7 @@ const Settings = () => {
             <div>
               <p>Would you like to delete this account?</p>
               <p>Deleting your account is permanent and will remove all the contain associated with it.</p>
-              <button 
+              <button
                 onClick={handleAccountDelete}
                 className="mt-3 italic font-semibold text-red-800 hover:underline"
               >

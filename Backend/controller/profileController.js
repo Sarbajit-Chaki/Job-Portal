@@ -75,7 +75,7 @@ const updateImage = async (req, res) => {
 }
 
 
-const updateResume = async (req, res) => {      // pdf link is not visible
+const updateResume = async (req, res) => {      
     try {
         const resume = req.files.resume
         if (!resume) {
@@ -84,6 +84,7 @@ const updateResume = async (req, res) => {      // pdf link is not visible
                 message: "Resume not uploaded"
             })
         }
+        
         const response = await imageupload(resume, "profile_resume")
         const resume_url = response.secure_url
         const user_id = req.user.id
@@ -133,6 +134,10 @@ const deleteProfile = async (req,res) => {
             
             await User.findByIdAndDelete({_id: user_id})
 
+            for (let cookie in req.cookies) {
+                res.clearCookie(cookie, { path: '/' });
+            }
+
             return res.status(200).json({
                 success: true,
                 message: "Employee Profile Deleted"
@@ -160,6 +165,10 @@ const deleteProfile = async (req,res) => {
             await Profile.findByIdAndDelete({_id: profile_id})
 
             await User.findByIdAndDelete({_id: user_id})
+
+            for (let cookie in req.cookies) {
+                res.clearCookie(cookie, { path: '/' });
+            }
 
             return res.status(200).json({
                 success: true,

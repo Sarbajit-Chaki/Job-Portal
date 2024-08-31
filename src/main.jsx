@@ -21,8 +21,11 @@ import ForgotPassword from './components/ForgotPassword.jsx'
 import VerifyEmail from './components/VerifyEmail.jsx'
 import ResetPassword from './components/ResetPassword.jsx'
 
-import { store } from './redux/store.js'
+import persistedReducer from './redux/store.js'
 import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const router = createBrowserRouter([
   {
@@ -98,13 +101,20 @@ const router = createBrowserRouter([
   },
 ]);
 
+const store = configureStore({
+  reducer: persistedReducer
+})
+
+const persistor = persistStore(store)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
+      <PersistGate loading={null} persistor={persistor} >
+        <RouterProvider router={router}>
+          <App />
+        </RouterProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
 )

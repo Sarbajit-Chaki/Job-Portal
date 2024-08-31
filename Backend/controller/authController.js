@@ -57,7 +57,7 @@ const signup = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const profileDetails = await Profile.create({ DOB: null, gender: null, about: null, contact: null })
-        await User.create({ firstName: firstName, lastName: lastName, email: email, password: hashedPassword, accountType: accountType, additionalDetails: profileDetails._id, image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`})
+        await User.create({ firstName: firstName, lastName: lastName, email: email, resume: null, password: hashedPassword, accountType: accountType, additionalDetails: profileDetails._id, image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`})
 
         return res.status(200).json({
             success: true,
@@ -144,13 +144,14 @@ const changePassword = async (req, res) => {
         const { old_pass, new_pass } = req.body
         const user = await User.findById({ _id: user_id })
 
-        const response = bcrypt.compare(old_pass, user.password)
+        const response = await bcrypt.compare(old_pass, user.password)
         if (!response) {
             return res.status(401).json({
                 success: false,
                 message: "Password is incorrect"
             })
         }
+        console.log(response)
 
         const hashedPassword = await bcrypt.hash(new_pass, 10)
         user.password = hashedPassword
