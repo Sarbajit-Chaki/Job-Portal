@@ -8,6 +8,7 @@ const createPost = async (req, res) => {
     try {
         const { title, description } = req.body;
         const post_image = req.files?.post_image;
+        console.log(req)
 
         const user_id = req.user.id;
         if (!user_id) {

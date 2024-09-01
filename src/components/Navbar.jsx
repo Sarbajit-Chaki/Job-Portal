@@ -5,12 +5,10 @@ import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const user = useSelector((state) => state.profile.user)
-  
-  const [login, setLogin] = useState(user ? true : false)
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLogin(user ? true : false)
+    
   }, [user])
 
   return (
@@ -23,7 +21,7 @@ const Navbar = () => {
           <NavLink className={(e) => { return e.isActive ? "border-b-4 border-b-[#00a264] text-[#00a264]" : "" }} to="/about">About Us</NavLink>
           <NavLink className={(e) => { return e.isActive ? "border-b-4 border-b-[#00a264] text-[#00a264]" : "" }} to="/contact">Contact Us</NavLink>
         </div>
-        {login?<img onClick={()=>{navigate("/myprofile")}} className=' w-9 rounded-full cursor-pointer' src={user.image} alt="profile" />
+        {user?<img onClick={()=>{navigate("/myprofile")}} className=' w-9 rounded-full cursor-pointer' src={user.image} alt="profile" />
         :
         <Link className=' bg-[#4cd681] px-4 py-1 rounded-md font-medium hover:bg-[#4cd681d1] hover:text-[#000000b0] ' to="/signup">Sign Up</Link>
         }

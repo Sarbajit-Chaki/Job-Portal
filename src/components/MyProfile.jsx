@@ -34,52 +34,55 @@ const MyProfile = () => {
             </div>
             <div className=' font-normal mb-3 '>Updating your information will offer you the most relevant jobs</div>
             <div className=' flex items-center gap-x-5'>
-              <img className=' self-start w-32 rounded-full' src={user.image} alt="" />
+              <img className=' self-start w-32 rounded-full' src={user?.image} alt="" />
               <div className='profile-info flex flex-col gap-y-4 '>
                 <div>
                   <div className=' text-xs '>Full name*</div>
-                  <div className=' text-xl'>{user.firstName + " " + user.lastName}</div>
+                  <div className=' text-xl'>{user?.firstName + " " + user?.lastName}</div>
                 </div>
                 <div>
                   <div className=' text-xs '>Employement status*</div>
-                  <div className=' text-xl'>{user.accountType[0].toUpperCase() + user.accountType.slice(1)}</div>
+                  <div className=' text-xl'>{user?.accountType[0].toUpperCase() + user?.accountType.slice(1)}</div>
                 </div>
                 <div>
                   <div className=' text-xs '>About*</div>
-                  <div className=' text-xl'>{user.additionalDetails.about}</div>
+                  <div className=' text-xl'>{user?.additionalDetails.about}</div>
                 </div>
                 <div>
                   <div className=' text-xs '>Email address*</div>
-                  <div className=' text-xl'>{user.email}</div>
+                  <div className=' text-xl'>{user?.email}</div>
                 </div>
                 <div>
                   <div className=' text-xs '>Contact*</div>
-                  <div className=' text-xl'>{user.additionalDetails.contact}</div>
+                  <div className=' text-xl'>{user?.additionalDetails.contact}</div>
                 </div>
                 <div>
                   <div className=' text-xs '>Gender*</div>
-                  <div className=' text-xl'>{user.additionalDetails.gender}</div>
+                  <div className=' text-xl'>{user?.additionalDetails.gender}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="box3">
-          <div className=' flex flex-col mt-6 mx-8 mb-8 '>
-            <div className=' text-2xl font-medium mb-3'>CV</div>
-            <div className=' font-normal mb-3'>After you upload a CV, it will be used to pre-fill job applications that you submit via Easy Apply. You can also make your CV visible or not visible to employers that are currently hiring.</div>
-            {
-              user.resume ?
-                <div onClick={() => { window.open(`${user.resume}`) }} className=' flex items-center gap-x-2 mb-3'>
-                  <span className="material-symbols-outlined">description</span>
-                  <div className=' text-xl font-medium hover:underline cursor-pointer'>{user.firstName + "_" + user.lastName + "_" + "resume"}</div>
-                </div>
-                :
-                <button onClick={() => { navigate('/settings') }} className='  bg-[#4cd681] px-4 py-1 rounded-md font-medium hover:bg-[#4cd681d1] hover:text-[#000000b0]'>Upload Resume</button>
-            }
+        {
+          user?.accountType === "employee" &&
+          <div className="box3">
+            <div className=' flex flex-col mt-6 mx-8 mb-8 '>
+              <div className=' text-2xl font-medium mb-3'>CV</div>
+              <div className=' font-normal mb-3'>After you upload a CV, it will be used to pre-fill job applications that you submit via Easy Apply. You can also make your CV visible or not visible to employers that are currently hiring.</div>
+              {
+                user?.resume ?
+                  <div onClick={() => { window.open(`${user?.resume}`) }} className=' flex items-center gap-x-2 mb-3'>
+                    <span className="material-symbols-outlined">description</span>
+                    <div className=' text-xl font-medium hover:underline cursor-pointer'>{user?.firstName + "_" + user?.lastName + "_" + "resume"}</div>
+                  </div>
+                  :
+                  <button onClick={() => { navigate('/settings') }} className='  bg-[#4cd681] px-4 py-1 rounded-md font-medium hover:bg-[#4cd681d1] hover:text-[#000000b0]'>Upload Resume</button>
+              }
+            </div>
           </div>
-        </div>
+        }
       </div>
     </>
   )

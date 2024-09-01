@@ -21,10 +21,10 @@ const AddPost = () => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
-        
-        if(file) {
-          setImageFile(file)
-          ReadFile(file)
+
+        if (file) {
+            setImageFile(file)
+            ReadFile(file)
         }
     }
 
@@ -32,14 +32,39 @@ const AddPost = () => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-          setImagePreview(reader.result)
+            setImagePreview(reader.result)
         }
     }
 
-    const onSubmit = async(data) => { 
-        data.jobPhoto = imageFile
+    const onSubmit = async (data) => {
+        if (imageFile == "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721747774/job-search_cbwggp.png") {
+            data.post_image = undefined;
+        }
+        else {
+            data.post_image = imageFile
+        }
 
-        console.log(data)
+        let formData = new FormData();
+        // Append other data fields
+        for (const key in data) {
+            if(key != "post_image"){
+                formData.append(key, data[key]);
+            }
+        }
+        
+        // Conditionally append the file object if it exists
+        if (data.post_image) {
+            formData.append("post_image", data.post_image);
+        }
+
+        let res = await fetch("http://localhost:3000/post/createPost", {
+            method: 'POST',
+            credentials: 'include',
+            body: formData
+        })
+
+        let data2 = await res.json()
+        console.log("Data:",data2)
 
         toast.success('Job Posted', {
             position: "top-center",
@@ -51,11 +76,11 @@ const AddPost = () => {
             progress: undefined,
             theme: "light",
         });
-        
+
         setImageFile("https://res.cloudinary.com/dpsb0ysde/image/upload/v1721747774/job-search_cbwggp.png")
         setImagePreview(null)
         reset();
-      }
+    }
 
     return (
         <>
@@ -73,11 +98,11 @@ const AddPost = () => {
                                     <input type="file"
                                         className=' hidden'
                                         accept="image/png, image/jpeg, image/jpg, image/gif"
-                                        {...register("jobPhoto")}
+                                        {...register("post_image")}
                                         onChange={handleFileChange}
                                         ref={fileInputRef}
                                     />
-                                    <button onClick={()=>{fileInputRef.current.click()}}  className=' bg-gray-400 text-black py-2 px-4 rounded-md'>Select</button>
+                                    <button onClick={() => { fileInputRef.current.click() }} className=' bg-gray-400 text-black py-2 px-4 rounded-md'>Select</button>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +115,7 @@ const AddPost = () => {
                                         <label>
                                             <p>Job Title</p>
                                             <input type="text" className="border border-gray-400 rounded-md mt-2 p-2 w-full"
-                                            {...register("jobTitle", { required: true })}
+                                                {...register("title", { required: true })}
                                             />
                                         </label>
                                     </div>
@@ -101,7 +126,7 @@ const AddPost = () => {
                                                 rows={7}
                                                 name="about"
                                                 maxLength={1500}
-                                                {...register("jobDescription", { required: true })}
+                                                {...register("description", { required: true })}
                                             />
                                         </label>
                                     </div>
