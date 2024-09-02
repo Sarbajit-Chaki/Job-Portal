@@ -8,7 +8,6 @@ const createPost = async (req, res) => {
     try {
         const { title, description } = req.body;
         const post_image = req.files?.post_image;
-        console.log(req)
 
         const user_id = req.user.id;
         if (!user_id) {
@@ -27,7 +26,7 @@ const createPost = async (req, res) => {
 
         let response;
         if (post_image) {
-            response = imageupload(post_image, "post_image", 1000)
+            response = await imageupload(post_image, "post_image", 1000)
         }
         const image_url = response?.secure_url;
 
