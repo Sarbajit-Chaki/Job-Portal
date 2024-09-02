@@ -37,24 +37,16 @@ const AddPost = () => {
     }
 
     const onSubmit = async (data) => {
-        if (imageFile == "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721747774/job-search_cbwggp.png") {
-            data.post_image = undefined;
-        }
-        else {
-            data.post_image = imageFile
-        }
 
         let formData = new FormData();
         // Append other data fields
         for (const key in data) {
-            if(key != "post_image"){
-                formData.append(key, data[key]);
-            }
+            formData.append(key, data[key]);
         }
         
         // Conditionally append the file object if it exists
-        if (data.post_image) {
-            formData.append("post_image", data.post_image);
+        if (imageFile != "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721747774/job-search_cbwggp.png") {
+            formData.append("post_image", imageFile);
         }
 
         let res = await fetch("http://localhost:3000/post/createPost", {
@@ -98,7 +90,6 @@ const AddPost = () => {
                                     <input type="file"
                                         className=' hidden'
                                         accept="image/png, image/jpeg, image/jpg, image/gif"
-                                        {...register("post_image")}
                                         onChange={handleFileChange}
                                         ref={fileInputRef}
                                     />
