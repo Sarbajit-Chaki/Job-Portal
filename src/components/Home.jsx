@@ -13,6 +13,7 @@ import Footer from './Footer';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/Slices/authSlice';
 import { setUser } from '../redux/Slices/profileSlice';
+import { toast } from 'react-toastify';
 
 const Home = () => {
   const [formData, setFormData] = useState({
@@ -36,6 +37,8 @@ const Home = () => {
     e.preventDefault();
     console.log(formData);
 
+    const loginToastId = toast.loading("Logging in...");
+
     let response = await fetch("http://localhost:3000/auth/login",{
       method: "POST",
       credentials: 'include',
@@ -50,8 +53,23 @@ const Home = () => {
     if(response.success === true) {
       // console.log(response.token)
       // console.log(response.user)
+      toast.update(loginToastId, {
+        render: "Login successful",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      })
       dispatch(setToken(response.token))
       dispatch(setUser(response.user))
+      navigate('/myprofile')
+    }
+    else {
+      toast.update(loginToastId, {
+        render: response.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      })
     }
   } 
 
