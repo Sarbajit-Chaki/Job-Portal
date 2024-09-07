@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,22 +8,40 @@ const EditPost = () => {
     const navigate = useNavigate();
     const fileInputRef = useRef();
 
-    const post = {
-        success: true,
-        message: "Post found succesfully",
-        post_details: {
-            title: "MERN Developer Intern",
-            description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo reprehenderit nam consectetur itaque velit. Dolor sequi praesentium optio itaque molestias. Animi deleniti, expedita numquam consequuntur repellendus deserunt? Accusantium quo, obcaecati ad illo ipsam sequi commodi dolor! Corrupti cupiditate commodi cumque quae, delectus qui veniam dolorem, sequi minima aliquam earum enim quibusdam facilis explicabo excepturi neque reprehenderit molestias ducimus minus! Amet illum excepturi illo numquam debitis repellendus magni pariatur aliquid animi est neque et consectetur dolorum qui quo vel velit nihil voluptates nisi, ex odio? Odio nobis corporis repellendus asperiores sed officia voluptas vero porro amet laudantium quidem sequi, iure error, dolore odit? Corrupti laboriosam nesciunt ex ut consequatur impedit modi et voluptatem dignissimos ab! Qui dolorum dicta iusto voluptas velit! Autem harum deleniti labore velit, reiciendis nobis. Nisi, repellat! Minus fugit quaerat ipsam obcaecati, et in ipsum, blanditiis possimus tempora ut molestias cupiditate similique. Rerum illo voluptatibus consectetur veritatis atque molestias saepe ipsam aliquid doloremque laboriosam temporibus explicabo ullam cumque repellendus dolore tenetur, dignissimos placeat unde! Laudantium minus, voluptate provident alias aperiam dolor, iure magni eius illum beatae obcaecati impedit tenetur fugiat illo perferendis expedita vel, consectetur aliquid facere itaque suscipit. Numquam ipsum odit eius atque vitae? Molestiae, veniam. Ducimus explicabo sint quos sed architecto a libero illum ad voluptatem eaque in iure magnam, iste numquam fugiat omnis! Sint, facere ex eius maxime rem aliquid nihil doloremque porro eum possimus incidunt optio dolorem vero accusamus hic corporis! Libero labore numquam deserunt esse, quod nihil omnis excepturi culpa recusandae, ad animi quos sed. Magnam animi labore obcaecati accusantium exercitationem architecto, itaque quasi aliquid amet placeat necessitatibus nesciunt. Cumque molestiae commodi dicta, impedit temporibus et nam alias, ratione ad officia doloremque dignissimos ut eaque culpa libero minima pariatur saepe iste nihil. Similique quae ut voluptate explicabo animi fugiat ratione dignissimos neque eos.",
-            imageUrl: "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721747774/job-search_cbwggp.png",
-            applied: [{}]
-        }
-    }
+    const { postId } = useParams();
+
+    const [post, setPost] = useState({});
 
     const [form, setForm] = useState({
-        title: post.post_details.title,
-        description: post.post_details.description,
-        imageUrl: post.post_details.imageUrl
+        title: post.title,
+        description: post.description,
+        imageUrl: post.imageUrl
     })
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            if (postId) {
+                console.log(postId)
+                let res = await fetch(`http://localhost:3000/post/getPostDetails`, {
+                    method: "POST",
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        post_id: postId
+                    })
+                });
+                res = await res.json();
+                console.log(res)
+                let data = res.post_details
+                setPost(data)
+                setForm({ ...form, title: data.title, description: data.description, imageUrl: data.imageUrl })
+            }
+        }
+
+        fetchPost();
+    }, [])
 
     const [imagePreview, setImagePreview] = useState(null)
 
@@ -33,8 +51,8 @@ const EditPost = () => {
 
     const handlePdfChange = (e) => {
         const file = e.target.files[0]
-        if(file){
-            setForm({...form, [e.target.name]: file})
+        if (file) {
+            setForm({ ...form, [e.target.name]: file })
             ReadFile(file)
         }
     }
@@ -43,7 +61,7 @@ const EditPost = () => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-          setImagePreview(reader.result)
+            setImagePreview(reader.result)
         }
     }
 
@@ -51,6 +69,22 @@ const EditPost = () => {
         e.preventDefault();
 
         console.log(form)
+
+        const newForm = new FormData();
+        newForm.append('title', form.title)
+        newForm.append('description', form.description)
+        newForm.append('post_image', form.imageUrl)
+        newForm.append('post_id', postId)
+
+        console.log(newForm)
+        let res = await fetch(`http://localhost:3000/post/editPost`, {
+            method: "PUT",
+            credentials: 'include',
+            body: newForm
+        });
+        
+        res = await res.json();
+        console.log(res)
 
         toast.success('Job Edited', {
             position: "top-center",
@@ -66,7 +100,7 @@ const EditPost = () => {
 
     return (
         <>
-            <ToastContainer/>
+            <ToastContainer />
 
             <div className='w-[calc(100vw-10rem)] overflow-y-auto'>
                 <div className=' mx-auto w-10/12 '>
@@ -89,7 +123,7 @@ const EditPost = () => {
                         </div>
 
                         <div className=" pb-10">
-                            <form onSubmit={handleSubmit}  action="">
+                            <form onSubmit={handleSubmit} action="">
                                 <div className="w-10/12 mx-auto flex flex-col gap-y-3">
                                     <h2 className="text-xl text-black font-semibold ">Job Information</h2>
                                     <div className="w-full">

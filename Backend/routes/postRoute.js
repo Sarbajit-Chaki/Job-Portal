@@ -9,7 +9,7 @@ router.post("/createPost", auth, isHr, createPost)
 router.put("/editPost", auth, isHr, editPost)
 router.delete("/deletePost", auth, isHr, deletePost)
 router.post("/applyPost", auth, isEmp, applyPost)
-router.get("/getPostDetails", getPostDetails)
+router.post("/getPostDetails", getPostDetails)
 router.get("/getAllPost", getAllPost)
 
 

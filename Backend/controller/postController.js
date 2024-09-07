@@ -66,7 +66,7 @@ const editPost = async (req, res) => {
 
         let response;
         if (post_image) {
-            response = imageupload(post_image, "post_image", 1000)
+            response = await imageupload(post_image, "post_image", 1000)
         }
         const image_url = response?.secure_url;
 
@@ -95,6 +95,7 @@ const deletePost = async (req, res) => {
     try {
         const { post_id } = req.body
         const user_id = req.user.id
+
         if (!user_id) {
             return res.status(401).json({
                 success: false,
@@ -110,14 +111,17 @@ const deletePost = async (req, res) => {
 
 
         const image_url = post.imageUrl
-        if (image_url != "https://5.imimg.com/data5/SELLER/Default/2021/5/WA/LQ/KN/100543921/job-portal-development-service-500x500.jpg") {
+        if (image_url != "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721747774/job-search_cbwggp.png") {
             const response = await imagedelete(image_url, "post_image")
             console.log(response)
         }
 
+        const user = await User.findById({ _id: user_id }).populate("posts")
+
         return res.status(200).json({
             success: true,
-            message: "post deleted successfully"
+            message: "post deleted successfully",
+            user
         })
     } catch (error) {
         console.log(error)
