@@ -180,8 +180,8 @@ const getPostDetails = async (req,res) => {
 
 const getAllPost = async (req,res) => {
     try {
-        const All_post_detsils = await Post.find({})
-        if(!All_post_detsils){
+        const All_post_details = await Post.find({})
+        if(!All_post_details){
             return res.status(401).json({
                 success: false,
                 message: "No post",
@@ -191,7 +191,7 @@ const getAllPost = async (req,res) => {
         return res.status(200).json({
             success: true,
             message: "All post get succesfully",
-            All_post_detsils
+            All_post_details
         })
     } catch (error) {
         console.log(error)
