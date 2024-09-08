@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import job_picture from '../assets/images/job-search.png'
 import { FaRegEdit } from 'react-icons/fa'
 import { MdDeleteOutline } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
@@ -75,7 +74,7 @@ const MyPosts = () => {
                   </div>
                   <div className='flex items-center gap-4'>
                     <button
-                      onClick={() => { navigate(`/myposts/appliedUsers`) }}
+                      onClick={() => { navigate(`/myposts/appliedUsers/${post._id}`) }}
                       className='bg-black text-white hover:bg-[#00a264] px-3 py-1 rounded-md transition-all duration-300'>
                       Applied Users
                     </button>

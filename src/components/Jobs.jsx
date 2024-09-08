@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const Jobs = () => {
 
@@ -6,19 +7,42 @@ const Jobs = () => {
 
   const [currPost, setCurrPost] = useState()
 
-  useEffect(() => {
-    async function getPosts() {
-      let res = await fetch("http://localhost:3000/post/getAllPost", {
-        method: "GET",
-        credentials: 'include',
-      });
+  const user = useSelector((state) => state.profile.user);
 
-      res = await res.json();
-      setAllPosts(res);
-      setCurrPost(res.All_post_details[0])
-    }
+  async function getPosts() {
+    let res = await fetch("http://localhost:3000/post/getAllPost", {
+      method: "GET",
+      credentials: 'include',
+    });
+
+    res = await res.json();
+    setAllPosts(res);
+    console.log(res)
+    // Logic by ChatGpt
+    setCurrPost(prevPost => res.All_post_details.find(post => post._id === prevPost?._id) || res.All_post_details[0]);
+  }
+
+  useEffect(() => {
     getPosts();
   },[])
+
+  const handleApply = async () => {
+    let res = await fetch("http://localhost:3000/post/applyPost", {
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        post_id: currPost._id
+      })
+    });
+
+    let data = await res.json();
+    console.log(data)
+
+    getPosts();
+  }
 
   return (
     <>
@@ -42,7 +66,13 @@ const Jobs = () => {
           <div className=' self-start'>
             <div className=' flex items-center justify-between mb-5'>
               <div className=' text-3xl font-semibold'>{currPost?.title}</div>
-              <button className=' bg-[#4cd681] hover:bg-[#00a264] text-black hover:text-white font-medium py-2 px-4 rounded-md'>Apply</button>
+              <button 
+                className=' bg-[#4cd681] hover:bg-[#00a264] text-black hover:text-white font-medium py-2 px-4 rounded-md'
+                onClick={handleApply}
+                disabled={currPost?.applied?.includes(user?._id)} 
+              >
+                {currPost?.applied?.includes(user?._id) ? "Applied" : "Apply" }
+              </button>
             </div>
             <div className=' overflow-y-auto max-h-[60vh]'>
               <div className=' text-lg font-semibold mb-2'>Job Description</div>

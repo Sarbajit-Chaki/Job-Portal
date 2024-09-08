@@ -14,6 +14,6 @@ router.delete("/deleteProfile", auth, deleteProfile)
 router.get("/getUserDetails", auth, getUserDetails)
 router.get("/getApplyPost", auth, isEmp, getApplyPost)
 router.get("/getMyPosts", auth, isHr, getMyPosts)
-router.get("/getAppliedUsers", auth, isHr, getAppliedUsers)
+router.post("/getAppliedUsers", auth, isHr, getAppliedUsers)
 
 export default router

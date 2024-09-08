@@ -105,7 +105,7 @@ const deletePost = async (req, res) => {
         const post = await Post.findByIdAndDelete({ _id: post_id })
         await User.findByIdAndUpdate({ _id: user_id }, { $pull: { posts: post_id } })
 
-        post.applied.forEach(async (apply_user_id) => {
+        post?.applied?.forEach(async (apply_user_id) => {
             await User.findByIdAndUpdate({ _id: apply_user_id }, { $pull: { apply: post_id } })
         })
 

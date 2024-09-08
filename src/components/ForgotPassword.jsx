@@ -4,6 +4,7 @@ const ForgotPassword = () => {
     const habdleSubmit = (e) => {
         e.preventDefault();
     }
+    
     return (
         <div className='flex justify-center items-center h-[calc(100vh-3rem)]'>
             <div className='w-1/3  border border-gray-400 px-8 py-6 rounded-md'>

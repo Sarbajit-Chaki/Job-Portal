@@ -1,52 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 const AppliedUsers = () => {
 
-  const appliedUsers = [
-    {
-      "_id": "6694d7fde6aa4b9d7c7470b9",
-      "firstName": "Dibakar",
-      "lastName": "Ghosh",
-      "email": "ghoshdibakar81@gmail.com",
-      "password": "$2b$10$IEx2OG9xXI/6uLuYhAVkLeDsuwVWC9GFKNAPs0QcDrh/AHZW5vj96",
-      "accountType": "employee",
-      "image": "https://api.dicebear.com/5.x/initials/svg?seed=Dibakar Ghosh",
-      "additionalDetails": {
-          "_id": "6694d7fde6aa4b9d7c7470b7",
-          "DOB": "26/06/2003",
-          "gender": "Male",
-          "about": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium accusantium dicta ullam alias maiores unde perspiciatis eum possimus labore, quaerat nam corrupti molestiae, quas ipsum ex numquam cupiditate blanditiis repudiandae. Sequi minus consectetur aperiam nobis commodi quae iusto eum provident in hic error atque laboriosam deserunt earum, asperiores dolores vel amet eos labore sed! Necessitatibus, asperiores voluptas. Eum illum, impedit facilis modi molestiae quam tempore vel maiores eligendi praesentium alias, officia vero cum sit. Ab omnis nobis aliquid, sed, distinctio alias reiciendis debitis facilis pariatur dolore id veritatis corporis explicabo itaque earum voluptate, doloribus soluta error deleniti illum laboriosam? Unde!",
-          "contact": "9874563215",
-          "__v": 0
+  const [appliedUsers, setAppliedUsers] = useState([])
+
+  const { postId } = useParams();
+
+  useEffect(() => {
+    const getAppliedUsers = async () => {
+      let res = await fetch("http://localhost:3000/profile/getAppliedUsers", {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
         },
-      "posts": [],
-      "apply": [],
-      "__v": 0,
-      "resume": "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721031320/profile_resume/nzift5zebkkluxrgpu4i.pdf"
-    },
-    {
-      "_id": "6694d7fde6aa4b9d7c7470b9",
-      "firstName": "Sarbajit",
-      "lastName": "Chaki",
-      "email": "chakisarbajit234@gmail.com",
-      "password": "$2b$10$IEx2OG9xXI/6uLuYhAVkLeDsuwVWC9GFKNAPs0QcDrh/AHZW5vj96",
-      "accountType": "employee",
-      "image": "https://api.dicebear.com/5.x/initials/svg?seed=Sarbajit Chaki",
-      "additionalDetails": {
-          "_id": "6694d7fde6aa4b9d7c7470b7",
-          "DOB": "14/05/2004",
-          "gender": "Male",
-          "about": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium accusantium dicta ullam alias maiores unde perspiciatis eum possimus labore, quaerat nam corrupti molestiae, quas ipsum ex numquam cupiditate blanditiis repudiandae. Sequi minus consectetur aperiam nobis commodi quae iusto eum provident in hic error atque laboriosam deserunt earum, asperiores dolores vel amet eos labore sed! Necessitatibus, asperiores voluptas. Eum illum, impedit facilis modi molestiae quam tempore vel maiores eligendi praesentium alias, officia vero cum sit. Ab omnis nobis aliquid, sed, distinctio alias reiciendis debitis facilis pariatur dolore id veritatis corporis explicabo itaque earum voluptate, doloribus soluta error deleniti illum laboriosam? Unde!",
-          "contact": "9874563215",
-          "__v": 0
-      },
-      "posts": [],
-      "apply": [],
-      "__v": 0,
-      "resume": "https://res.cloudinary.com/dpsb0ysde/image/upload/v1721031320/profile_resume/nzift5zebkkluxrgpu4i.pdf"
-  },
-  ]
-  return (
+        body: JSON.stringify({
+          post_id: postId
+        })
+      });
+
+      res = await res.json();
+      console.log(res);
+      setAppliedUsers(res?.post?.applied);
+    }
+
+    getAppliedUsers();
+  }, [])
+  
+  return ( // TODO: add pno user apllied till now in post 
     <div>
       {
         appliedUsers.map((user,index) => (

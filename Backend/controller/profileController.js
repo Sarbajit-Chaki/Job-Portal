@@ -274,6 +274,7 @@ const getAppliedUsers = async (req,res) => {
     try {
         const user_id = req.user.id
         const {post_id} = req.body
+
         if(!user_id){
             return res.status(401).json({
                 success: false,
@@ -295,6 +296,7 @@ const getAppliedUsers = async (req,res) => {
                 message: "Not authorized"
             })
         }
+        
 
         const post = await Post.findOne({_id: post_id}).populate({path:"applied",populate:{path:"additionalDetails"}})
         
