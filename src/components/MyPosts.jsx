@@ -3,6 +3,7 @@ import job_picture from '../assets/images/job-search.png'
 import { FaRegEdit } from 'react-icons/fa'
 import { MdDeleteOutline } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const MyPosts = () => {
   const [allPosts, setAllPosts] = useState([])
@@ -25,23 +26,37 @@ const MyPosts = () => {
   }, [])
 
   async function deletePost(id) {
-    console.log(id)
-    let res = await fetch(`http://localhost:3000/post/deletePost`, {
-      method: "DELETE",
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        post_id: id
-      })
-    });
+    const toastId = toast.loading('Deleting Post...');
+    try {
+      let res = await fetch(`http://localhost:3000/post/deletePost`, {
+        method: "DELETE",
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post_id: id
+        })
+      });
 
-    res = await res.json();
-    console.log(res);
-    let data = res.user.posts
-    console.log(data)
-    setAllPosts(data)
+      res = await res.json();
+      let data = res.user.posts
+      setAllPosts(data)
+      toast.update(toastId, {
+        render: "Post Deleted",
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000,
+      });
+    } catch (error) {
+      toast.update(toastId, {
+        render: "Error Deleting Post",
+        type: 'error',
+        isLoading: false,
+        autoClose: 2000,
+      });
+      console.log(error.message)
+    }
   }
 
   const navigate = useNavigate()
