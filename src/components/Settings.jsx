@@ -170,6 +170,8 @@ const Settings = () => {
   }
 
   const handleAccountDelete = () => {
+    if(!window.confirm("Are you sure you want to delete your account?")) return;
+    
     // Delete account
     let res = fetch("http://localhost:3000/profile/deleteProfile", {
       method: "DELETE",

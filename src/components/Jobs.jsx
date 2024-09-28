@@ -52,7 +52,7 @@ const Jobs = () => {
             return (
               <div onClick={()=>{setCurrPost(post)}} key={i} className= {`${post==currPost?" border-[#ededed] rounded-lg":" border-white border-b-[#ededed]"} p-4 mb-1 cursor-pointer border-2 hover:bg-[#f4f4f4]`} >
                 <div className=' flex items-center gap-x-3 mb-2'>
-                  <img className=' w-8 rounded-full' src={post.imageUrl} alt="" />
+                  <img className=' size-12 rounded-full' src={post.imageUrl} alt="" />
                   <div className=' text-lg font-medium'>{post.title}</div>
                 </div>
                 <div>{post.description.split(" ").slice(0, 10).join(" ")}...</div>
@@ -64,7 +64,7 @@ const Jobs = () => {
         <div className=' w-1/2 max-h-[80vh] flex items-center gap-x-6 p-8 border-2 border-b-[#ededed] rounded-lg'>
           <img className=' size-12 rounded-full self-start' src={currPost?.imageUrl} alt="" />
           <div className=' self-start'>
-            <div className=' flex items-center justify-between mb-5'>
+            <div className=' flex items-center justify-between gap-6 mb-5'>
               <div className=' text-3xl font-semibold'>{currPost?.title}</div>
               <button 
                 className=' bg-[#4cd681] hover:bg-[#00a264] text-black hover:text-white font-medium py-2 px-4 rounded-md'

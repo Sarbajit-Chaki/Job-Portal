@@ -44,21 +44,21 @@ const MyProfile = () => {
                   <div className=' text-xs '>Employement status*</div>
                   <div className=' text-xl'>{user?.accountType[0].toUpperCase() + user?.accountType.slice(1)}</div>
                 </div>
-                <div>
+                <div className='min-h-16 '>
                   <div className=' text-xs '>About*</div>
-                  <div className=' text-xl'>{user?.additionalDetails.about}</div>
+                  <div className=' text-xl max-h-[200px] overflow-y-auto'>{user?.additionalDetails.about ?? "Not Added by user"}</div>
                 </div>
                 <div>
                   <div className=' text-xs '>Email address*</div>
                   <div className=' text-xl'>{user?.email}</div>
                 </div>
-                <div>
-                  <div className=' text-xs '>Contact*</div>
-                  <div className=' text-xl'>{user?.additionalDetails.contact}</div>
+                <div className=' min-h-10'>
+                  <div className=' text-xs'>Contact*</div>
+                  <div className=' text-xl'>{user?.additionalDetails.contact ?? "Not specified"}</div>
                 </div>
-                <div>
+                <div className=' min-h-10'>
                   <div className=' text-xs '>Gender*</div>
-                  <div className=' text-xl'>{user?.additionalDetails.gender}</div>
+                  <div className=' text-xl'>{user?.additionalDetails.gender ?? "Not specified"}</div>
                 </div>
               </div>
             </div>
