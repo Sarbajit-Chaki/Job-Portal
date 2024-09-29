@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 
 const verifyEmail = async (req, res) => {   
     const { email } = req.body
+    console.log(email)
 
     const user = await User.findOne({email: email})
     if(!user){

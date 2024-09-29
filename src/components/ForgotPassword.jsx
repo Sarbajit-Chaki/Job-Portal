@@ -1,8 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
-    const habdleSubmit = (e) => {
+    const [email, setEmail] = useState("");
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        if(email.trim() === "") {
+            return;
+        }
+
+        try {
+            let res = await fetch("http://localhost:3000/auth/verifyEmail", {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body : JSON.stringify({email}),
+            })
+
+            let response = await res.json();
+            console.log(response);
+
+            if(response.success) {
+                navigate("/verify-otp", {state : {data : {email : email}}});
+            }
+            else{
+                toast.error(response.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
     
     return (
@@ -16,11 +47,13 @@ const ForgotPassword = () => {
                             type="email" 
                             className='border h-[40px] px-2 w-full border-gray-500 rounded-md mt-3'
                             placeholder='Enter your email address'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </label>
                     <button
                         type='submit'
-                        onClick={() => {}}
+                        onClick={handleSubmit}
                         className='self-end mt-5 bg-black hover:bg-[#00a264] text-white px-4 py-2 rounded-md transition-all duration-300'
                     >
                         Confirm
