@@ -12,6 +12,7 @@ const ForgotPassword = () => {
             return;
         }
 
+        const toastId = toast.loading("loading...");
         try {
             let res = await fetch("http://localhost:3000/auth/verifyEmail", {
                 credentials: 'include',
@@ -26,13 +27,18 @@ const ForgotPassword = () => {
             console.log(response);
 
             if(response.success) {
+                toast.dismiss(toastId);
                 navigate("/verify-otp", {state : {data : {email : email}}});
             }
             else{
-                toast.error(response.message);
+                toast.update(toastId, {render: response.message, type: 'error'});
             }
         } catch (error) {
+            toast.update(toastId, {render: "Something went wrong", type: 'error'});
             console.log(error);
+        }
+        finally {
+            toast.dismiss(toastId);
         }
     }
     
