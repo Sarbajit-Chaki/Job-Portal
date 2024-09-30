@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const Jobs = () => {
 
@@ -8,6 +9,7 @@ const Jobs = () => {
   const [currPost, setCurrPost] = useState()
 
   const user = useSelector((state) => state.profile.user);
+  const token = useSelector((state) => state.auth.token);
 
   async function getPosts() {
     let res = await fetch("http://localhost:3000/post/getAllPost", {
@@ -27,6 +29,10 @@ const Jobs = () => {
   },[])
 
   const handleApply = async () => {
+    if(!token) {
+      toast.error("Please login to apply for a job");
+      return;
+    }
     let res = await fetch("http://localhost:3000/post/applyPost", {
       method: "POST",
       credentials: 'include',

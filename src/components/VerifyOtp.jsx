@@ -17,6 +17,7 @@ const VerifyOtp = () => {
             return;
         }
 
+        const toastId = toast.loading("verifying...");
         try {
             let res = await fetch("http://localhost:3000/auth/verifyOtp", {
                 method: "POST",
@@ -34,13 +35,18 @@ const VerifyOtp = () => {
             console.log(result);
 
             if (result.success) {
+                toast.dismiss(toastId);
                 navigate("/reset-password", { state: { data: data } });
             }
             else {
-                toast.error("Otp is incorrect");
+                toast.update(toastId, {render: "Invalid OTP", type: 'error'});
             }
         } catch (error) {
+            toast.update(toastId, {render: "Something went wrong", type: 'error'});
             console.log(error);
+        }
+        finally {
+            toast.dismiss(toastId);
         }
     }
 
