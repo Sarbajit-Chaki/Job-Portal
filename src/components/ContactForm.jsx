@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,10 +22,11 @@ const ContactForm = () => {
         e.preventDefault();
         console.log(formData);
 
+        const loginToastId = toast.loading("Message sending...");
+
         try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbwsdM0tHG_MKdH2FGguUDQbAdtjhKqdjAK7BZKu9vzBc01wSpPJFMl0_ijsGEoBjSJ7TQ/exec', {
+            const response = await fetch('http://localhost:3000/contact-us', {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -39,7 +40,31 @@ const ContactForm = () => {
             });
 
             const data = await response.json();
-            console.log('Success:', data);
+            if (data.status == 200) {
+                toast.update(loginToastId, {
+                    render: "Thank you for reaching out!",
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 3000,
+                });
+            }
+            else {
+                toast.update(loginToastId, {
+                    render: "Something went wrong",
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 3000,
+                });
+            }
+            
+            // Reset form
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: '',
+                message: '',
+            });
         } catch (error) {
             console.error('Error:', error.message);
         }
