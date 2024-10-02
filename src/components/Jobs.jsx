@@ -33,6 +33,10 @@ const Jobs = () => {
       toast.error("Please login to apply for a job");
       return;
     }
+    if(user.accountType === 'hr') {
+      toast.error("HRs can't apply for jobs");
+      return;
+    }
     let res = await fetch("http://localhost:3000/post/applyPost", {
       method: "POST",
       credentials: 'include',
