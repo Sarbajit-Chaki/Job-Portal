@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../redux/Slices/profileSlice";
 import { setToken } from "../redux/Slices/authSlice";
+import { toast } from "react-toastify";
 
 const genders = ["Male", "Female", "Other"]
 
@@ -81,6 +82,7 @@ const Settings = () => {
     // Upload image to server
     if(!imageFile) return
 
+    const toastId = toast.loading("Uploading Image...");
     const formData = new FormData();
     formData.append('image', imageFile);
 
@@ -92,6 +94,12 @@ const Settings = () => {
 
     let data = await res.json()
     console.log(data)
+    if(data.success === false) {
+      toast.update(toastId, { render: data.message, type: "error", isLoading: false, autoClose: 2000 })
+      return
+    } else {
+      toast.update(toastId, { render: "Image Uploaded Successfully!", type: "success", isLoading: false, autoClose: 2000 })
+    }
 
     dispatch(setUser(data.user))
   }
@@ -100,6 +108,7 @@ const Settings = () => {
     // Upload pdf to server
     if(!pdfFile) return
 
+    const toastId = toast.loading("Uploading Resume...");
     const formData = new FormData();
     formData.append('resume', pdfFile);
 
@@ -111,6 +120,13 @@ const Settings = () => {
 
     let data = await res.json()
     console.log(data)
+
+    if(data.success === false) {
+      toast.update(toastId, { render: data.message, type: "error", isLoading: false, autoClose: 2000 })
+      return
+    } else {
+      toast.update(toastId, { render: "Resume Uploaded Successfully!", type: "success", isLoading: false, autoClose: 2000 })
+    }
 
     dispatch(setUser(data.user))
 
@@ -130,6 +146,7 @@ const Settings = () => {
     e.preventDefault()
     console.log(formData)
     
+    const toastId = toast.loading("Updating Profile...");
     let res = await fetch("http://localhost:3000/profile/updateProfile", {
       method: "POST",
       credentials: 'include',
@@ -141,13 +158,23 @@ const Settings = () => {
 
     let data = await res.json()
     console.log(data)
+    if(data.success === false) {
+      toast.update(toastId, { render: data.message, type: "error", isLoading: false, autoClose: 2000 })
+      return
+    } else {
+      toast.update(toastId, { render: "Profile Updated Successfully!", type: "success", isLoading: false, autoClose: 2000 })
+    }
     dispatch(setUser(data.user))
   }
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault()
-    if(passwordData.newPassword === passwordData.oldPassword) return
+    if(passwordData.newPassword === passwordData.oldPassword) {
+      toast.error("New password cannot be same as old password")
+      return
+    }
     
+    const toastId = toast.loading("Updating Password...");
     let res = await fetch("http://localhost:3000/auth/changePassword", {
       method: "POST",
       credentials: 'include',
@@ -162,6 +189,13 @@ const Settings = () => {
 
     let data = await res.json()
     console.log(data)
+    
+    if(data.success === false) {
+      toast.update(toastId, { render: data.message, type: "error", isLoading: false, autoClose: 2000 })
+      return
+    } else {
+      toast.update(toastId, { render: "Password Updated Successfully!", type: "success", isLoading: false, autoClose: 2000 })
+    }
 
     setPasswordData({
       oldPassword: "",
