@@ -40,6 +40,12 @@ JobPro allows users to sign up as **HR** or **Employee** and unlock a range of f
 ## 💼 **Usage**
 1. Open your browser and visit http://localhost:5000.
 2. Register as HR or Employee.
-3. Explore the features:
-   -**HR:** Post jobs, review applications, and manage hiring.
-   -**Employee:** Search jobs, apply, and update your profile.
+3.  **Explore the features:**
+   - **HR:**
+     - Post jobs
+     - Review applications
+     - Manage hiring
+   - **Employee:**
+     - Search jobs
+     - Apply for jobs
+     - Update your profile
