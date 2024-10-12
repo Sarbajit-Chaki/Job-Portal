@@ -24,3 +24,22 @@ JobPro allows users to sign up as **HR** or **Employee** and unlock a range of f
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/jobpro.git
+
+2. Navigate into the project directory:
+   ```bash
+   cd jobpro
+
+3. Install the required dependencies:
+   ```bash
+   npm install
+
+4. Start the development serve:
+   ```bash
+   npm start
+
+## 💼 **Usage**
+1. Open your browser and visit http://localhost:5000.
+2. Register as HR or Employee.
+3. Explore the features:
+   -**HR:** Post jobs, review applications, and manage hiring.
+   -**Employee:** Search jobs, apply, and update your profile.
